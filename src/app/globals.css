@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   SCS Command Center — Galaxy Theme
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #030712;
-  --foreground: #f3f4f6;
+  --background: #07080f;
+  --foreground: #e8e8ef;
+  --gold: #d4a843;
+  --gold-bright: #e8c45a;
+  --gold-dark: #a17d2e;
+  --silver: #b8bcc8;
+  --silver-bright: #d1d5db;
+  --oc-red: #dc2626;
 }
 
 @theme inline {
@@ -12,17 +22,125 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ── Base ──────────────────────────────────────────────────── */
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  position: relative;
 }
 
-/* Hero fade-in animation */
+/* ── Galaxy Background ─────────────────────────────────────── */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    /* Red nebula glow top-left */
+    radial-gradient(ellipse 700px 500px at 10% 15%, rgba(220, 38, 38, 0.06), transparent),
+    /* Gold nebula glow bottom-right */
+    radial-gradient(ellipse 600px 400px at 85% 80%, rgba(212, 168, 67, 0.04), transparent),
+    /* Silver subtle center */
+    radial-gradient(ellipse 500px 500px at 50% 45%, rgba(184, 188, 200, 0.015), transparent),
+    /* Red accent mid-right */
+    radial-gradient(ellipse 300px 300px at 75% 30%, rgba(220, 38, 38, 0.03), transparent),
+    /* Base gradient */
+    linear-gradient(145deg, #07080f 0%, #0a0c1a 30%, #0d1020 60%, #080a14 100%);
+}
+
+/* Star field (repeating tile) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 24px 32px, rgba(255,255,255,0.18), transparent),
+    radial-gradient(1px 1px at 78px 98px, rgba(255,255,255,0.10), transparent),
+    radial-gradient(1.2px 1.2px at 142px 18px, rgba(255,255,255,0.14), transparent),
+    radial-gradient(1px 1px at 48px 145px, rgba(255,255,255,0.08), transparent),
+    radial-gradient(1px 1px at 182px 82px, rgba(255,255,255,0.12), transparent),
+    radial-gradient(1.2px 1.2px at 8px 178px, rgba(255,255,255,0.16), transparent),
+    radial-gradient(1px 1px at 118px 158px, rgba(255,255,255,0.09), transparent),
+    radial-gradient(1px 1px at 195px 42px, rgba(255,255,255,0.11), transparent),
+    radial-gradient(0.8px 0.8px at 55px 72px, rgba(212,168,67,0.15), transparent),
+    radial-gradient(0.8px 0.8px at 165px 125px, rgba(220,38,38,0.12), transparent);
+  background-size: 220px 200px;
+}
+
+/* ── Glass utility classes ─────────────────────────────────── */
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-elevated {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.2s;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.5);
+}
+
+/* ── Gold button ───────────────────────────────────────────── */
+
+.btn-gold {
+  background: linear-gradient(135deg, #b8862d, #d4a843);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(212, 168, 67, 0.12);
+  transition: all 0.2s ease;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #c9952a, #e8c45a);
+  box-shadow: 0 4px 24px rgba(212, 168, 67, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+/* ── Silver button ─────────────────────────────────────────── */
+
+.btn-silver {
+  background: rgba(255, 255, 255, 0.06);
+  color: #b8bcc8;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+
+.btn-silver:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
+}
+
+/* ── Animations ────────────────────────────────────────────── */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -30,7 +148,6 @@ body {
   }
 }
 
-/* Toast slide-in animation */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -42,7 +159,13 @@ body {
   }
 }
 
-/* Custom scrollbar for dark theme */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -53,10 +176,27 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ── Table rows ────────────────────────────────────────────── */
+
+.table-row-zebra:nth-child(even) {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.table-row-zebra:hover {
+  background: rgba(212, 168, 67, 0.04);
+}
+
+/* ── Selection ─────────────────────────────────────────────── */
+
+::selection {
+  background: rgba(212, 168, 67, 0.3);
+  color: #fff;
 }

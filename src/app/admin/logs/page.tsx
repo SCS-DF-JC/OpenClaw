@@ -83,20 +83,20 @@ export default function LogsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Logs</h2>
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h2 className="text-xl font-semibold text-white">Logs</h2>
+        <div className="flex items-center gap-3 flex-wrap">
           <input
             type="text"
             placeholder="Search logs…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-gray-300 placeholder-gray-500 w-56 focus:outline-none focus:border-gray-500"
+            className="glass-input rounded-lg px-3 py-1.5 text-xs text-[#b8bcc8] placeholder-[#4a5068] w-56"
           />
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value as LogLevel | "")}
-            className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-gray-300 focus:outline-none"
+            className="glass-input rounded-lg px-3 py-1.5 text-xs text-[#b8bcc8]"
           >
             <option value="">All levels</option>
             <option value="info">Info</option>
@@ -106,13 +106,13 @@ export default function LogsPage() {
           <div className="flex gap-1">
             <button
               onClick={() => exportLogs("json")}
-              className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+              className="btn-silver px-3 py-1.5 text-xs rounded-lg"
             >
               Export JSON
             </button>
             <button
               onClick={() => exportLogs("csv")}
-              className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+              className="btn-silver px-3 py-1.5 text-xs rounded-lg"
             >
               Export CSV
             </button>
@@ -129,20 +129,20 @@ export default function LogsPage() {
           description="Try adjusting your filters or search query."
         />
       ) : (
-        <div className="rounded-xl bg-gray-800/60 border border-gray-700/50 overflow-hidden">
+        <div className="glass rounded-xl overflow-hidden">
           <table className="w-full text-xs">
             <thead>
-              <tr className="text-gray-500 border-b border-gray-700/50 bg-gray-900/30">
-                <th className="text-left py-2.5 px-4 font-medium w-44">
+              <tr className="text-[#6b7394] border-b border-white/[0.06] bg-white/[0.02]">
+                <th className="text-left py-3 px-4 font-medium w-44">
                   Timestamp
                 </th>
-                <th className="text-left py-2.5 px-4 font-medium w-20">
+                <th className="text-left py-3 px-4 font-medium w-20">
                   Level
                 </th>
-                <th className="text-left py-2.5 px-4 font-medium w-28">
+                <th className="text-left py-3 px-4 font-medium w-28">
                   Source
                 </th>
-                <th className="text-left py-2.5 px-4 font-medium">
+                <th className="text-left py-3 px-4 font-medium">
                   Message
                 </th>
               </tr>
@@ -157,25 +157,25 @@ export default function LogsPage() {
                         onClick={() =>
                           (log.details || log.stackTrace) && toggle(log.id)
                         }
-                        className={`w-full text-left flex items-center gap-0 hover:bg-gray-800/40 transition ${
+                        className={`w-full text-left flex items-center gap-0 table-row-zebra transition ${
                           log.details || log.stackTrace
                             ? "cursor-pointer"
                             : "cursor-default"
                         }`}
                       >
-                        <span className="py-2.5 px-4 text-gray-400 whitespace-nowrap w-44">
+                        <span className="py-2.5 px-4 text-[#8890a4] whitespace-nowrap w-44">
                           {new Date(log.timestamp).toLocaleString()}
                         </span>
                         <span className="py-2.5 px-4 w-20">
                           <StatusBadge label={log.level} />
                         </span>
-                        <span className="py-2.5 px-4 text-gray-500 w-28">
+                        <span className="py-2.5 px-4 text-[#6b7394] w-28">
                           {log.source}
                         </span>
-                        <span className="py-2.5 px-4 text-gray-300 flex-1 truncate">
+                        <span className="py-2.5 px-4 text-[#b8bcc8] flex-1 truncate">
                           {log.message}
                           {(log.details || log.stackTrace) && (
-                            <span className="text-gray-600 ml-2">
+                            <span className="text-[#4a5068] ml-2">
                               {open ? "▲" : "▼"}
                             </span>
                           )}
@@ -183,23 +183,23 @@ export default function LogsPage() {
                       </button>
 
                       {open && (
-                        <div className="px-4 pb-3 bg-gray-900/30">
+                        <div className="px-4 pb-3 bg-white/[0.015]">
                           {log.details && (
                             <div className="mb-2">
-                              <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">
+                              <p className="text-[10px] text-[#4a5068] uppercase tracking-wider mb-1">
                                 Details
                               </p>
-                              <pre className="text-xs text-gray-400 bg-gray-900 rounded p-3 overflow-auto">
+                              <pre className="text-xs text-[#8890a4] bg-white/[0.02] rounded-lg p-3 overflow-auto border border-white/[0.04]">
                                 {log.details}
                               </pre>
                             </div>
                           )}
                           {log.stackTrace && (
                             <div>
-                              <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">
+                              <p className="text-[10px] text-[#4a5068] uppercase tracking-wider mb-1">
                                 Stack Trace
                               </p>
-                              <pre className="text-xs text-red-400/80 bg-gray-900 rounded p-3 overflow-auto">
+                              <pre className="text-xs text-red-400/80 bg-white/[0.02] rounded-lg p-3 overflow-auto border border-red-500/10">
                                 {log.stackTrace}
                               </pre>
                             </div>

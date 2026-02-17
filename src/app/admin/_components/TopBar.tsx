@@ -42,24 +42,25 @@ export default function TopBar({ userInfo }: { userInfo: UserInfo }) {
   const c = connStyles[conn];
 
   return (
-    <header className="h-14 bg-gray-900/80 backdrop-blur-sm border-b border-gray-800 flex items-center justify-between px-6 sticky top-0 z-20">
+    <header className="h-14 bg-[#07080f]/60 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-6 sticky top-0 z-20">
       {/* Left */}
       <div className="flex items-center gap-4">
-        <span className="text-xs font-medium text-gray-500 bg-gray-800 rounded px-2.5 py-1">
+        <span className="text-[10px] font-semibold text-[#d4a843] bg-[#d4a843]/10 border border-[#d4a843]/20 rounded px-2.5 py-1 uppercase tracking-wider">
           OVH / Production
         </span>
         <div className="flex items-center gap-2">
           <span className={`inline-block w-2 h-2 rounded-full ${c.dot}`} />
-          <span className="text-xs text-gray-400">{c.label}</span>
+          <span className="text-xs text-[#8890a4]">{c.label}</span>
         </div>
       </div>
 
       {/* Right */}
       <div className="flex items-center gap-4">
         <div className="text-right">
-          <p className="text-xs text-gray-300">{userInfo.email}</p>
-          <p className="text-[10px] text-gray-500">
-            Role: <span className="text-emerald-400">{userInfo.role}</span>
+          <p className="text-xs text-[#b8bcc8]">{userInfo.email}</p>
+          <p className="text-[10px] text-[#4a5068]">
+            Role:{" "}
+            <span className="text-[#d4a843]">{userInfo.role}</span>
           </p>
         </div>
         <UserButton

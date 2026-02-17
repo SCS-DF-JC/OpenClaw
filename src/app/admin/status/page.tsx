@@ -36,7 +36,6 @@ export default function StatusPage() {
     setDiagResult(null);
     toast("Running diagnostics…", "info");
 
-    // Simulate diagnostic run
     await new Promise((r) => setTimeout(r, 2000));
     const data = await getServiceStatuses();
     setServices(data);
@@ -71,19 +70,19 @@ export default function StatusPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">System Status</h2>
+        <h2 className="text-xl font-semibold text-white">System Status</h2>
         <div className="flex items-center gap-3">
           <button
             onClick={runDiagnostics}
             disabled={diagRunning}
-            className="px-4 py-2 text-xs rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50 transition"
+            className="btn-gold px-4 py-2 text-xs rounded-lg disabled:opacity-50"
           >
             {diagRunning ? "Running…" : "Run Diagnostics"}
           </button>
           {diagResult && (
             <button
               onClick={copyReport}
-              className="px-4 py-2 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+              className="btn-silver px-4 py-2 text-xs rounded-lg"
             >
               Copy Report
             </button>
@@ -91,14 +90,13 @@ export default function StatusPage() {
         </div>
       </div>
 
-      {/* Services Table */}
       {loading ? (
         <SkeletonLoader lines={5} />
       ) : (
-        <div className="rounded-xl bg-gray-800/60 border border-gray-700/50 overflow-hidden">
+        <div className="glass rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-gray-500 text-xs border-b border-gray-700/50 bg-gray-900/30">
+              <tr className="text-[#6b7394] text-xs border-b border-white/[0.06] bg-white/[0.02]">
                 <th className="text-left py-3 px-5 font-medium">Service</th>
                 <th className="text-left py-3 px-5 font-medium">Status</th>
                 <th className="text-left py-3 px-5 font-medium">Latency</th>
@@ -111,18 +109,18 @@ export default function StatusPage() {
               {services.map((svc) => (
                 <tr
                   key={svc.name}
-                  className="border-b border-gray-800/50 hover:bg-gray-800/30"
+                  className="table-row-zebra border-b border-white/[0.03]"
                 >
-                  <td className="py-3.5 px-5 text-gray-200 font-medium">
+                  <td className="py-3.5 px-5 text-[#d1d5db] font-medium">
                     {svc.name}
                   </td>
                   <td className="py-3.5 px-5">
                     <StatusBadge label={svc.status} />
                   </td>
-                  <td className="py-3.5 px-5 text-gray-400 font-mono text-xs">
+                  <td className="py-3.5 px-5 text-[#8890a4] font-mono text-xs">
                     {svc.latencyMs !== undefined ? `${svc.latencyMs}ms` : "—"}
                   </td>
-                  <td className="py-3.5 px-5 text-gray-500 text-xs">
+                  <td className="py-3.5 px-5 text-[#6b7394] text-xs">
                     {new Date(svc.lastCheck).toLocaleString()}
                   </td>
                 </tr>
@@ -132,13 +130,12 @@ export default function StatusPage() {
         </div>
       )}
 
-      {/* Diagnostics Output */}
       {diagResult && (
-        <div className="rounded-xl bg-gray-800/60 border border-gray-700/50 p-5">
-          <h3 className="text-sm font-medium text-gray-300 mb-3">
+        <div className="glass rounded-xl p-5">
+          <h3 className="text-sm font-medium text-[#b8bcc8] mb-3">
             Diagnostics Report
           </h3>
-          <pre className="bg-gray-900 rounded-lg p-4 text-xs text-emerald-400 font-mono overflow-auto whitespace-pre">
+          <pre className="bg-white/[0.02] border border-white/[0.04] rounded-lg p-4 text-xs text-[#d4a843] font-mono overflow-auto whitespace-pre">
             {diagResult}
           </pre>
         </div>

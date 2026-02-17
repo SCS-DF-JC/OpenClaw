@@ -12,7 +12,7 @@ export default function SkeletonLoader({
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
-          className="h-4 rounded bg-gray-700/50 animate-pulse"
+          className="h-4 rounded bg-white/[0.06] animate-pulse"
           style={{ width: `${70 + Math.random() * 30}%` }}
         />
       ))}

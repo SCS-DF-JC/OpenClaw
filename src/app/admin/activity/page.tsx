@@ -37,12 +37,10 @@ export default function ActivityPage() {
     }
   }, []);
 
-  // Initial load
   useEffect(() => {
     fetchFeed();
   }, [fetchFeed]);
 
-  // Auto-refresh
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (autoRefresh && !paused) {
@@ -72,7 +70,7 @@ export default function ActivityPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Activity Monitor</h2>
+        <h2 className="text-xl font-semibold text-white">Activity Monitor</h2>
         <SkeletonLoader lines={8} />
       </div>
     );
@@ -80,26 +78,24 @@ export default function ActivityPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Activity Monitor</h2>
-        <div className="flex items-center gap-3">
-          {/* Auto-refresh toggle */}
-          <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h2 className="text-xl font-semibold text-white">Activity Monitor</h2>
+        <div className="flex items-center gap-3 flex-wrap">
+          <label className="flex items-center gap-2 text-xs text-[#8890a4] cursor-pointer">
             <input
               type="checkbox"
               checked={autoRefresh}
               onChange={(e) => setAutoRefresh(e.target.checked)}
-              className="accent-emerald-500"
+              className="accent-[#d4a843]"
             />
             Auto-refresh
           </label>
 
-          {/* Interval */}
           {autoRefresh && (
             <select
               value={interval}
               onChange={(e) => setIntervalMs(Number(e.target.value))}
-              className="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-xs text-gray-300 focus:outline-none"
+              className="glass-input rounded-lg px-2 py-1 text-xs text-[#b8bcc8]"
             >
               <option value={5000}>5s</option>
               <option value={10000}>10s</option>
@@ -107,23 +103,21 @@ export default function ActivityPage() {
             </select>
           )}
 
-          {/* Pause */}
           <button
             onClick={() => setPaused((p) => !p)}
-            className={`px-3 py-1.5 text-xs rounded-lg transition ${
+            className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
               paused
-                ? "bg-amber-600/20 text-amber-400"
-                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                ? "bg-amber-500/15 text-amber-400 border border-amber-500/20"
+                : "btn-silver"
             }`}
           >
             {paused ? "▶ Resume" : "⏸ Pause"}
           </button>
 
-          {/* Filter */}
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as FilterCat)}
-            className="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-xs text-gray-300 focus:outline-none"
+            className="glass-input rounded-lg px-2 py-1 text-xs text-[#b8bcc8]"
           >
             <option value="all">All</option>
             <option value="task">Tasks</option>
@@ -134,18 +128,17 @@ export default function ActivityPage() {
 
           <button
             onClick={() => setFilter("all")}
-            className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+            className="btn-silver px-3 py-1.5 text-xs rounded-lg"
           >
             Clear filters
           </button>
         </div>
       </div>
 
-      {/* Disconnected banner */}
       {backendDown && (
-        <div className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-center justify-between">
+        <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 flex items-center justify-between backdrop-blur-sm">
           <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-red-400" />
+            <span className="inline-block w-2 h-2 rounded-full bg-red-400 animate-pulse" />
             <span className="text-sm text-red-300">
               Backend disconnected — showing last cached feed
             </span>
@@ -159,7 +152,6 @@ export default function ActivityPage() {
         </div>
       )}
 
-      {/* Timeline */}
       {filtered.length === 0 ? (
         <EmptyState
           icon="⚡"
@@ -173,40 +165,40 @@ export default function ActivityPage() {
             return (
               <div
                 key={ev.id}
-                className="rounded-xl bg-gray-800/60 border border-gray-700/50 overflow-hidden"
+                className="glass rounded-xl overflow-hidden hover:bg-white/[0.04] transition-colors"
               >
                 <button
                   onClick={() => toggle(ev.id)}
-                  className="w-full flex items-center gap-4 px-5 py-3.5 text-left hover:bg-gray-800/40 transition"
+                  className="w-full flex items-center gap-4 px-5 py-3.5 text-left transition"
                 >
-                  <span className="text-xs text-gray-500 whitespace-nowrap w-20">
+                  <span className="text-xs text-[#6b7394] whitespace-nowrap w-20">
                     {new Date(ev.timestamp).toLocaleTimeString()}
                   </span>
                   <StatusBadge label={ev.category} />
                   <StatusBadge label={ev.severity} />
-                  <span className="flex-1 text-sm text-gray-200 truncate">
+                  <span className="flex-1 text-sm text-[#d1d5db] truncate">
                     {ev.title}
                   </span>
                   {ev.duration && (
-                    <span className="text-xs text-gray-500">{ev.duration}</span>
+                    <span className="text-xs text-[#6b7394]">{ev.duration}</span>
                   )}
                   <StatusBadge label={ev.status} />
-                  <span className="text-xs text-gray-600">
+                  <span className="text-xs text-[#4a5068]">
                     {open ? "▲" : "▼"}
                   </span>
                 </button>
 
                 {open && (
-                  <div className="px-5 pb-4 border-t border-gray-700/30">
-                    <p className="text-sm text-gray-400 mt-3">{ev.summary}</p>
+                  <div className="px-5 pb-4 border-t border-white/[0.04]">
+                    <p className="text-sm text-[#8890a4] mt-3">{ev.summary}</p>
                     {ev.details && (
-                      <pre className="mt-2 text-xs text-gray-500 bg-gray-900 rounded p-3 overflow-auto">
+                      <pre className="mt-2 text-xs text-[#6b7394] bg-white/[0.02] rounded-lg p-3 overflow-auto border border-white/[0.04]">
                         {ev.details}
                       </pre>
                     )}
                     <button
                       onClick={() => copyPayload(ev)}
-                      className="mt-3 text-xs text-gray-400 hover:text-white underline"
+                      className="mt-3 text-xs text-[#d4a843] hover:text-[#e8c45a] transition-colors"
                     >
                       Copy JSON
                     </button>

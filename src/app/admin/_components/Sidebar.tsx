@@ -70,13 +70,14 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-60 bg-gray-950 border-r border-gray-800 flex flex-col z-30">
+    <aside className="fixed left-0 top-0 bottom-0 w-60 bg-[#060710]/90 backdrop-blur-xl border-r border-white/[0.06] flex flex-col z-30">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-gray-800">
+      <div className="px-5 py-5 border-b border-white/[0.06]">
         <h1 className="text-lg font-bold text-white tracking-tight">
-          <span className="text-emerald-400">SCS</span> Command Center
+          <span className="bg-gradient-to-r from-[#d4a843] to-[#e8c45a] bg-clip-text text-transparent">SCS</span>{" "}
+          Command Center
         </h1>
-        <p className="text-[10px] text-gray-500 mt-0.5 uppercase tracking-widest">
+        <p className="text-[10px] text-[#4a5068] mt-0.5 uppercase tracking-widest">
           OpenClaw Admin
         </p>
       </div>
@@ -89,10 +90,10 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                 active
-                  ? "bg-gray-800 text-white"
-                  : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+                  ? "bg-white/[0.08] text-[#d4a843] border-l-2 border-[#d4a843] -ml-[2px]"
+                  : "text-[#8890a4] hover:text-[#d1d5db] hover:bg-white/[0.04]"
               }`}
             >
               {item.icon}
@@ -103,8 +104,8 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-5 py-4 border-t border-gray-800">
-        <p className="text-[10px] text-gray-600">
+      <div className="px-5 py-4 border-t border-white/[0.06]">
+        <p className="text-[10px] text-[#2a2f42]">
           OpenClaw WebUI v0.1.0
         </p>
       </div>

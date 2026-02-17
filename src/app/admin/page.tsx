@@ -70,10 +70,10 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Dashboard</h2>
+        <h2 className="text-xl font-semibold text-white">Dashboard</h2>
         <div className="grid grid-cols-5 gap-4">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="rounded-xl bg-gray-800/60 border border-gray-700/50 p-5">
+            <div key={i} className="glass rounded-xl p-5">
               <SkeletonLoader lines={2} />
             </div>
           ))}
@@ -85,7 +85,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Dashboard</h2>
+      <h2 className="text-xl font-semibold text-white">Dashboard</h2>
 
       {/* KPI Row */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -105,7 +105,7 @@ export default function DashboardPage() {
           value={stats?.lastActivity ? new Date(stats.lastActivity).toLocaleTimeString() : "—"}
           subtitle={stats?.lastActivity ? new Date(stats.lastActivity).toLocaleDateString() : undefined}
         />
-        <KpiCard title="Tasks Today" value={stats?.tasksToday ?? 0} />
+        <KpiCard title="Tasks Today" value={stats?.tasksToday ?? 0} accent="gold" />
         <KpiCard
           title="Errors Today"
           value={stats?.errorsToday ?? 0}
@@ -115,19 +115,19 @@ export default function DashboardPage() {
       </div>
 
       {/* Health Panel */}
-      <div className="rounded-xl bg-gray-800/60 border border-gray-700/50 p-5">
+      <div className="glass rounded-xl p-5">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-medium text-gray-300">
+            <h3 className="text-sm font-medium text-[#b8bcc8]">
               Backend Health
             </h3>
             <div className="flex items-center gap-3 mt-2">
               <StatusBadge label={health?.ok ? "online" : "offline"} />
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-[#6b7394]">
                 Last heartbeat: {fmt(health?.ts ?? null)}
               </span>
               {health?.latencyMs !== undefined && (
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[#6b7394]">
                   Latency: {health.latencyMs}ms
                 </span>
               )}
@@ -138,7 +138,7 @@ export default function DashboardPage() {
               toast("Retrying connection…", "info");
               fetchAll();
             }}
-            className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+            className="btn-silver px-3 py-1.5 text-xs rounded-lg"
           >
             Retry connection
           </button>
@@ -146,9 +146,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Activity */}
-      <div className="rounded-xl bg-gray-800/60 border border-gray-700/50 p-5">
+      <div className="glass rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-medium text-gray-300">
+          <h3 className="text-sm font-medium text-[#b8bcc8]">
             Recent Activity
           </h3>
           <div className="flex items-center gap-3">
@@ -157,12 +157,12 @@ export default function DashboardPage() {
               placeholder="Search…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-gray-300 placeholder-gray-500 w-48 focus:outline-none focus:border-gray-500"
+              className="glass-input rounded-lg px-3 py-1.5 text-xs text-[#b8bcc8] placeholder-[#4a5068] w-48"
             />
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as Filter)}
-              className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-gray-500"
+              className="glass-input rounded-lg px-3 py-1.5 text-xs text-[#b8bcc8]"
             >
               <option value="all">All</option>
               <option value="error">Errors</option>
@@ -175,18 +175,18 @@ export default function DashboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className="text-gray-500 border-b border-gray-700/50">
-                <th className="text-left py-2 px-3 font-medium">Time</th>
-                <th className="text-left py-2 px-3 font-medium">Type</th>
-                <th className="text-left py-2 px-3 font-medium">Summary</th>
-                <th className="text-left py-2 px-3 font-medium">Duration</th>
-                <th className="text-left py-2 px-3 font-medium">Status</th>
+              <tr className="text-[#6b7394] border-b border-white/[0.06]">
+                <th className="text-left py-2.5 px-3 font-medium">Time</th>
+                <th className="text-left py-2.5 px-3 font-medium">Type</th>
+                <th className="text-left py-2.5 px-3 font-medium">Summary</th>
+                <th className="text-left py-2.5 px-3 font-medium">Duration</th>
+                <th className="text-left py-2.5 px-3 font-medium">Status</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center py-8 text-gray-500">
+                  <td colSpan={5} className="text-center py-8 text-[#4a5068]">
                     No activity found
                   </td>
                 </tr>
@@ -194,18 +194,18 @@ export default function DashboardPage() {
                 filtered.map((ev) => (
                   <tr
                     key={ev.id}
-                    className="border-b border-gray-800/50 hover:bg-gray-800/30"
+                    className="table-row-zebra border-b border-white/[0.03]"
                   >
-                    <td className="py-2.5 px-3 text-gray-400 whitespace-nowrap">
+                    <td className="py-2.5 px-3 text-[#8890a4] whitespace-nowrap">
                       {new Date(ev.timestamp).toLocaleTimeString()}
                     </td>
                     <td className="py-2.5 px-3">
                       <StatusBadge label={ev.category} />
                     </td>
-                    <td className="py-2.5 px-3 text-gray-300 max-w-sm truncate">
+                    <td className="py-2.5 px-3 text-[#b8bcc8] max-w-sm truncate">
                       {ev.summary}
                     </td>
-                    <td className="py-2.5 px-3 text-gray-400">
+                    <td className="py-2.5 px-3 text-[#6b7394]">
                       {ev.duration ?? "—"}
                     </td>
                     <td className="py-2.5 px-3">

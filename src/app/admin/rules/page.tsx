@@ -33,7 +33,6 @@ export default function RulesPage() {
       const [files, bndl] = await Promise.all([listFiles(), listBundles()]);
       setTree(files);
       setBundles(bndl);
-      // Expand all folders by default
       const folders = new Set<string>();
       const walk = (nodes: FileNode[]) =>
         nodes.forEach((n) => {
@@ -109,7 +108,6 @@ export default function RulesPage() {
     }
   };
 
-  /* ── Tree Renderer ─────────────────────────────────────────── */
   const renderNode = (node: FileNode, depth = 0): React.ReactNode => {
     const isFolder = node.type === "folder";
     const isOpen = expandedFolders.has(node.path);
@@ -129,19 +127,19 @@ export default function RulesPage() {
           }}
           onDragLeave={() => setDragOver(null)}
           onDrop={(e) => isFolder && handleDrop(e, node.path)}
-          className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs rounded-lg transition text-left ${
+          className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs rounded-lg transition-all text-left ${
             isSelected
-              ? "bg-gray-700 text-white"
-              : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
-          } ${isDragTarget ? "ring-1 ring-emerald-500" : ""}`}
+              ? "bg-white/[0.08] text-[#d4a843]"
+              : "text-[#8890a4] hover:text-[#d1d5db] hover:bg-white/[0.04]"
+          } ${isDragTarget ? "ring-1 ring-[#d4a843]/50" : ""}`}
           style={{ paddingLeft: `${12 + depth * 16}px` }}
         >
-          <span className="text-gray-500">
+          <span className="text-[#6b7394]">
             {isFolder ? (isOpen ? "📂" : "📁") : "📄"}
           </span>
           <span className="flex-1 truncate">{node.name}</span>
           {isFolder && (
-            <span className="text-[10px] text-gray-600">{childCount}</span>
+            <span className="text-[10px] text-[#4a5068]">{childCount}</span>
           )}
         </button>
         {isFolder && isOpen && node.children?.map((c) => renderNode(c, depth + 1))}
@@ -152,7 +150,7 @@ export default function RulesPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h2 className="text-xl font-semibold">Rules &amp; Docs</h2>
+        <h2 className="text-xl font-semibold text-white">Rules &amp; Docs</h2>
         <SkeletonLoader lines={10} />
       </div>
     );
@@ -160,13 +158,13 @@ export default function RulesPage() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Rules &amp; Docs</h2>
+      <h2 className="text-xl font-semibold text-white">Rules &amp; Docs</h2>
 
       <div className="grid grid-cols-12 gap-4" style={{ minHeight: "calc(100vh - 200px)" }}>
         {/* Folder Tree */}
-        <div className="col-span-4 xl:col-span-3 rounded-xl bg-gray-800/60 border border-gray-700/50 p-4 overflow-y-auto">
+        <div className="col-span-4 xl:col-span-3 glass rounded-xl p-4 overflow-y-auto">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+            <h3 className="text-[11px] font-medium text-[#6b7394] uppercase tracking-wider">
               Files
             </h3>
           </div>
@@ -176,7 +174,7 @@ export default function RulesPage() {
         </div>
 
         {/* File Viewer */}
-        <div className="col-span-8 xl:col-span-9 rounded-xl bg-gray-800/60 border border-gray-700/50 p-5 flex flex-col">
+        <div className="col-span-8 xl:col-span-9 glass rounded-xl p-5 flex flex-col">
           {!file ? (
             <EmptyState
               icon="📄"
@@ -185,13 +183,12 @@ export default function RulesPage() {
             />
           ) : (
             <>
-              {/* File header */}
-              <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-700/50">
+              <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/[0.06]">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-200">
+                  <h3 className="text-sm font-medium text-[#d1d5db]">
                     {file.path.split("/").pop()}
                   </h3>
-                  <p className="text-[10px] text-gray-500 mt-0.5">
+                  <p className="text-[10px] text-[#4a5068] mt-0.5">
                     {file.path} · Modified {new Date(file.lastModified).toLocaleString()}
                   </p>
                 </div>
@@ -200,19 +197,19 @@ export default function RulesPage() {
                     <>
                       <button
                         onClick={() => setEditing(true)}
-                        className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                        className="btn-silver px-3 py-1.5 text-xs rounded-lg"
                       >
                         Edit
                       </button>
                       <button
                         onClick={handleDownload}
-                        className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                        className="btn-silver px-3 py-1.5 text-xs rounded-lg"
                       >
                         Download
                       </button>
                       <button
                         onClick={() => toast("Published to agent (stub)", "success")}
-                        className="px-3 py-1.5 text-xs rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition"
+                        className="btn-gold px-3 py-1.5 text-xs rounded-lg"
                       >
                         Publish to agent
                       </button>
@@ -224,11 +221,11 @@ export default function RulesPage() {
                         value={versionNotes}
                         onChange={(e) => setVersionNotes(e.target.value)}
                         placeholder="What changed?"
-                        className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-gray-300 placeholder-gray-500 w-48 focus:outline-none focus:border-gray-500"
+                        className="glass-input rounded-lg px-3 py-1.5 text-xs text-[#b8bcc8] placeholder-[#4a5068] w-48"
                       />
                       <button
                         onClick={handleSave}
-                        className="px-3 py-1.5 text-xs rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition"
+                        className="btn-gold px-3 py-1.5 text-xs rounded-lg"
                       >
                         Save
                       </button>
@@ -237,7 +234,7 @@ export default function RulesPage() {
                           setEditing(false);
                           setEditContent(file.content);
                         }}
-                        className="px-3 py-1.5 text-xs rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                        className="btn-silver px-3 py-1.5 text-xs rounded-lg"
                       >
                         Cancel
                       </button>
@@ -246,16 +243,15 @@ export default function RulesPage() {
                 </div>
               </div>
 
-              {/* Content */}
               {editing ? (
                 <textarea
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
-                  className="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm text-gray-300 font-mono resize-none focus:outline-none focus:border-gray-500"
+                  className="flex-1 glass-input rounded-lg p-4 text-sm text-[#b8bcc8] font-mono resize-none"
                 />
               ) : (
-                <div className="flex-1 bg-gray-900/50 rounded-lg p-4 overflow-auto">
-                  <pre className="text-sm text-gray-300 whitespace-pre-wrap font-mono">
+                <div className="flex-1 bg-white/[0.02] rounded-lg p-4 overflow-auto border border-white/[0.04]">
+                  <pre className="text-sm text-[#b8bcc8] whitespace-pre-wrap font-mono">
                     {file.content}
                   </pre>
                 </div>
@@ -266,8 +262,8 @@ export default function RulesPage() {
       </div>
 
       {/* Rulebook Bundles */}
-      <div className="rounded-xl bg-gray-800/60 border border-gray-700/50 p-5">
-        <h3 className="text-sm font-medium text-gray-300 mb-4">
+      <div className="glass rounded-xl p-5">
+        <h3 className="text-sm font-medium text-[#b8bcc8] mb-4">
           Rulebook Bundles
         </h3>
         {bundles.length === 0 ? (
@@ -281,16 +277,16 @@ export default function RulesPage() {
             {bundles.map((b) => (
               <div
                 key={b.id}
-                className="flex items-center justify-between bg-gray-900/50 rounded-lg px-4 py-3"
+                className="flex items-center justify-between bg-white/[0.02] rounded-lg px-4 py-3 border border-white/[0.04]"
               >
                 <div>
-                  <p className="text-sm text-gray-200">
+                  <p className="text-sm text-[#d1d5db]">
                     {b.name}
                     {b.active && (
                       <StatusBadge label="Active" className="ml-2" />
                     )}
                   </p>
-                  <p className="text-[10px] text-gray-500 mt-0.5">
+                  <p className="text-[10px] text-[#4a5068] mt-0.5">
                     {b.files.length} file{b.files.length !== 1 ? "s" : ""} ·
                     Created {new Date(b.createdAt).toLocaleDateString()}
                   </p>
@@ -300,8 +296,8 @@ export default function RulesPage() {
                   disabled={b.active}
                   className={`px-3 py-1.5 text-xs rounded-lg transition ${
                     b.active
-                      ? "bg-gray-700/50 text-gray-600 cursor-not-allowed"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      ? "bg-white/[0.03] text-[#4a5068] cursor-not-allowed"
+                      : "btn-silver"
                   }`}
                 >
                   {b.active ? "Active" : "Set as Active"}
@@ -312,7 +308,6 @@ export default function RulesPage() {
         )}
       </div>
 
-      {/* Delete confirmation */}
       <ConfirmModal
         open={!!deleteTarget}
         title="Delete item"

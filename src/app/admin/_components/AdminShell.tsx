@@ -14,7 +14,7 @@ export default function AdminShell({
 }) {
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-gray-950 text-gray-100">
+      <div className="min-h-screen text-[#e8e8ef]">
         <Sidebar />
         <div className="ml-60">
           <TopBar userInfo={userInfo} />
