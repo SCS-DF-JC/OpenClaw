@@ -17,7 +17,7 @@ export default function HomePage() {
 
           {imgStatus !== "missing" ? (
             <Image
-              src="/brand/openclaw-scs-hero.png"
+              src="/image.jpg"
               alt="OpenClaw — SCS Command Center"
               width={440}
               height={440}
